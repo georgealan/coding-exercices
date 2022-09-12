@@ -1,47 +1,48 @@
 import java.util.*;
 import java.util.function.Consumer;
 
-interface FactoryContract {
-    int[] createResultOfTargetSum(int number);
-    int[] populateInputArray(int[] array);
-    int[] sortArray(int[] inputNumbers);
-}
+// TODO Adjust bug that create
+public class TwoNumberSumAp1 {
+    static int[] inputNumbers = new int[8];
+    static int targetSum;
+    static int currentSum;
+    static int left;
+    static int right;
+    static Random random = new Random();
 
-class ArrayFactory implements FactoryContract {
-    Random random = new Random();
-    private final int targetSum;
-    private final int[] target;
-    private int[] inputNumbers;
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Insert a number for targetSum: ");
+        targetSum = scanner.nextInt();
 
-    ArrayFactory(int targetSum) {
-        this.targetSum = targetSum;
-        this.target = createResultOfTargetSum(targetSum);
-        this.inputNumbers = new int[8];
-        this.inputNumbers = populateInputArray(target);
+        int[] targetResult = createResultOfTargetSum(targetSum);
+        int[] arrayFilled = populateInputArray(targetResult);
+        int[] result = twoNumberSum(arrayFilled, targetSum);
+
+        /*if (Arrays.toString(targetResult).equals(Arrays.toString(result))) {
+            String txt = printResult(targetResult, arrayFilled);
+            System.out.println(txt);
+        }*/
+        System.out.println(Arrays.toString(targetResult));
+        System.out.println(Arrays.toString(arrayFilled));
+        System.out.println(Arrays.toString(result));
+
+        String txt = printResult(arrayFilled, result);
+        System.out.println(txt);
     }
 
-    public int getTargetSum() {
-        return targetSum;
+    static String printResult(int[] arrayInputNumbers, int[] resultTargetSum) {
+        return "The array: " + Arrays.toString(arrayInputNumbers) + " has these two numbers: " + Arrays.toString(resultTargetSum) + " Wich when sum up will result in: " + targetSum;
     }
 
-    public int[] getTarget() {
-        return target;
-    }
-
-    public int[] getInputNumbers() {
-        return inputNumbers;
-    }
-
-    @Override
-    public int[] createResultOfTargetSum(int number) {
+    static int[] createResultOfTargetSum(int number) {
         int minus = random.nextInt(1, number);
         int result = number - minus;
 
         return new int[]{result, minus};
     }
 
-    @Override
-    public int[] populateInputArray(int[] array) {
+    static int[] populateInputArray(int[] array) {
         Collection<Integer> numbers = new HashSet<>();
         array = sortArray(array);
         int interval = array[1] - array[0];
@@ -65,60 +66,16 @@ class ArrayFactory implements FactoryContract {
         return inputNumbers;
     }
 
-    @Override
-    public int[] sortArray(int[] inputNumbers) {
-        return Arrays.stream(inputNumbers).sorted().toArray();
-    }
-}
-
-public class TwoNumberSumAp1 {
-
-    static int[] resultSum;
-    static int targetSum;
-    static int currentSum;
-    static int left;
-    static int right;
-    static Random random = new Random();
-
-    static ArrayFactory arrayFactory;
-
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Insert a number for targetSum: ");
-        targetSum = scanner.nextInt();
-
-        arrayFactory = new ArrayFactory(targetSum);
-
-        int[] targetResult = arrayFactory.getTarget();
-        int[] arrayFilled = arrayFactory.getInputNumbers();
-        int[] result = twoNumberSum(arrayFilled, arrayFactory.getTargetSum());
-
-        /*if (Arrays.toString(targetResult).equals(Arrays.toString(result))) {
-            String txt = printResult(targetResult, arrayFilled);
-            System.out.println(txt);
-        }*/
-        System.out.println(Arrays.toString(targetResult));
-        System.out.println(Arrays.toString(arrayFilled));
-        System.out.println(Arrays.toString(result));
-
-        String txt = printResult(targetResult, arrayFilled);
-        System.out.println(txt);
-    }
-
-    static String printResult(int[] resultTargetSum, int[] arrayInputNumbers) {
-        return "The array: " + Arrays.toString(arrayInputNumbers) + " has only these two numbers: " + Arrays.toString(resultTargetSum) + " Wich when sum up will result in: " + arrayFactory.getTargetSum();
-    }
-
     static int[] twoNumberSum(int[] inputNumbers, int targetSum) {
         inputNumbers = Arrays.stream(inputNumbers).sorted().toArray();
-
+        int[] resultSum = new int[2];
         left = 0;
         right = inputNumbers.length -1;
 
         while (left < right) {
             currentSum = inputNumbers[left] + inputNumbers[right];
             if (currentSum == targetSum) {
-                resultSum = new int[] {inputNumbers[left], inputNumbers[right]};
+                resultSum = new int[]{inputNumbers[left], inputNumbers[right]};
                 break;
             } else if (currentSum < targetSum) {
                 left++;
@@ -130,6 +87,9 @@ public class TwoNumberSumAp1 {
         return resultSum;
     }
 
+    static int[] sortArray(int[] inputNumbers) {
+        return Arrays.stream(inputNumbers).sorted().toArray();
+    }
 }
 
 /*
