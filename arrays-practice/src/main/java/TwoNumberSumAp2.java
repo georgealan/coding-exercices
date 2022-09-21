@@ -15,6 +15,12 @@ public class TwoNumberSumAp2 {
         int[] arrayFilled = TwoNumberSumAp1.populateInputArray(targetResult);
         int[] expectedResult = TwoNumberSumAp1.twoNumberSum(arrayFilled, targetSum);
 
+        checkArrayTwoNumberSum(arrayFilled);
+
+        verifyResult(result, expectedResult);
+    }
+
+    private static void checkArrayTwoNumberSum(int[] arrayFilled) {
         for (int currentNum : arrayFilled) {
             operationResult = targetSum - currentNum;
             if (!numbersPresent.containsKey(operationResult)) {
@@ -24,8 +30,6 @@ public class TwoNumberSumAp2 {
                 result[1] = currentNum;
             }
         }
-
-        verifyResult(result, expectedResult);
     }
 
     static void verifyResult(int[] x, int[] y) {
@@ -34,10 +38,12 @@ public class TwoNumberSumAp2 {
 
         for (int a : x) {
             if (a == y[i]) {
-                message = "All results match, you are a champion dude! congrats!";
+                message = "All results match, you are a champion dude! congrats! see there the algorithm result: "
+                        + Arrays.toString(x) + " compared to expected result: " + Arrays.toString(y);
                 i++;
             } else {
-                message = "Oh No! you are a loser sucker!";
+                message = "Oh No! the algorithm that you wrote is a joke dude! see you pathetic failure here, the result: "
+                        + Arrays.toString(x) + " compared to expected result: " + Arrays.toString(y);
                 break;
             }
         }
