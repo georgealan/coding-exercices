@@ -1,7 +1,6 @@
 import java.util.*;
 import java.util.function.Consumer;
 
-// TODO Adjust bug that create
 public class TwoNumberSumAp1 {
     static int[] inputNumbers = new int[8];
     static int targetSum;
